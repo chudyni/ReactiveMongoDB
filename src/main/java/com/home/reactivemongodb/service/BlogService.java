@@ -14,4 +14,8 @@ public interface BlogService {
     Flux<Blog> findByTitle(final String title);
 
     Flux<Blog> findAll();
+
+    Mono<Blog> update(final Blog blog, final String id);
+
+    Mono<Blog> findOne(final String id);
 }

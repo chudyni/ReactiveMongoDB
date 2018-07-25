@@ -32,5 +32,23 @@ public class BlogServiceImpl implements BlogService {
         return this.blogRepository.findAll();
     }
 
+    @Override
+    public Mono<Blog> update(Blog blog, String id) {
+        return this.findOne(id)
+                .doOnSuccess(result -> {
+                    result.setAuthor(blog.getAuthor());
+                    result.setTitle(blog.getTitle());
+                    result.setContent(blog.getContent());
+
+                    this.blogRepository.save(result)
+                            .subscribe();
+                });
+    }
+
+    @Override
+    public Mono<Blog> findOne(String id) {
+        return this.blogRepository.findByIdAndDeleteIsFalse(id)
+                .switchIfEmpty(Mono.error(new Exception("No blog found with id: " + id)));
+    }
 
 }

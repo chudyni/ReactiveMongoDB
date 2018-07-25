@@ -20,13 +20,6 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Blog> create(@RequestBody final Blog blog) {
-        log.debug("create Blog with blog : {}", blog);
-        return blogService.createBlog(blog);
-    }
-
     @GetMapping("/find")
     public Flux<Blog> findByTitle(@RequestParam final String title) {
         log.debug("findByTitle Blog with blogTitle : {}", title);
@@ -36,5 +29,17 @@ public class BlogController {
     @GetMapping
     public Flux<Blog> findAll() {
         return this.blogService.findAll();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Blog> create(@RequestBody final Blog blog) {
+        log.debug("create Blog with blog : {}", blog);
+        return this.blogService.createBlog(blog);
+    }
+
+    @PutMapping("/{id}")
+    public Mono<Blog> updateBlog(@RequestBody final Blog blog, @PathVariable final String id) {
+        return this.blogService.update(blog, id);
     }
 }
