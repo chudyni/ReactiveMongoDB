@@ -3,6 +3,9 @@ package com.home.reactivemongodb.service.impl;
 import com.home.reactivemongodb.model.impl.Blog;
 import com.home.reactivemongodb.repository.BlogRepository;
 import com.home.reactivemongodb.service.BlogService;
+import com.home.reactivemongodb.service.NotificationService;
+import com.home.reactivemongodb.service.ViewService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -11,11 +14,15 @@ import reactor.core.publisher.Mono;
 /**
  * Created by marcin.bracisiewicz
  */
+@Slf4j
 @Service
 public class BlogServiceImpl implements BlogService {
 
     @Autowired
     private BlogRepository blogRepository;
+
+    @Autowired
+    private ViewService viewService;
 
     @Override
     public Mono<Blog> createBlog(Blog blog) {
@@ -24,7 +31,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Flux<Blog> findByTitle(String title) {
-        return this.blogRepository.findByTitle(title);
+        final Flux<Blog> blog = this.blogRepository.findByTitle(title);
+        blog.subscribe(retrieved -> log.info("SERVICE - Found by title"));
+        return blog;
     }
 
     @Override
@@ -41,7 +50,7 @@ public class BlogServiceImpl implements BlogService {
                     result.setContent(blog.getContent());
 
                     this.blogRepository.save(result)
-                            .subscribe();
+                            .subscribe(viewService::display);
                 });
     }
 
