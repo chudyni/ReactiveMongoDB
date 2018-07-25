@@ -19,11 +19,18 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Mono<Blog> createBlog(Blog blog) {
-        return null;
+        return this.blogRepository.insert(blog);
     }
 
     @Override
     public Flux<Blog> findByTitle(String title) {
-        return null;
+        return this.blogRepository.findByTitle(title);
     }
+
+    @Override
+    public Flux<Blog> findAll() {
+        return this.blogRepository.findAll();
+    }
+
+
 }
