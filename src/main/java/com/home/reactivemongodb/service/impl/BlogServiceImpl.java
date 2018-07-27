@@ -7,6 +7,7 @@ import com.home.reactivemongodb.service.NotificationService;
 import com.home.reactivemongodb.service.ViewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,15 +25,25 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private ViewService viewService;
 
+    @Autowired
+    @Qualifier("notificationServiceImpl")
+    private NotificationService notificationService;
+
+    @Autowired
+    @Qualifier("deadLetteringNotificationServiceImpl")
+    private NotificationService deadLetteringNotificationService;
+
     @Override
     public Mono<Blog> createBlog(Blog blog) {
-        return this.blogRepository.insert(blog);
+        return this.blogRepository.insert(blog)
+            .doOnSuccess(this.notificationService::send);
     }
 
     @Override
     public Flux<Blog> findByTitle(String title) {
         final Flux<Blog> blog = this.blogRepository.findByTitle(title);
         blog.subscribe(retrieved -> log.info("SERVICE - Found by title"));
+        blog.subscribe(this.deadLetteringNotificationService::send);
         return blog;
     }
 
@@ -50,7 +61,7 @@ public class BlogServiceImpl implements BlogService {
                     result.setContent(blog.getContent());
 
                     this.blogRepository.save(result)
-                            .subscribe(viewService::display);
+                            .subscribe(this.viewService::display);
                 });
     }
 
