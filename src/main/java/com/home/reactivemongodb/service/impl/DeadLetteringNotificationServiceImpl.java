@@ -1,8 +1,8 @@
 package com.home.reactivemongodb.service.impl;
 
 import com.home.reactivemongodb.ReactivemongodbApplication;
-import com.home.reactivemongodb.model.impl.Blog;
 import com.home.reactivemongodb.service.NotificationService;
+import com.home.reactivemongodbapi.model.impl.Blog;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class DeadLetteringNotificationServiceImpl implements NotificationService
     this.template.convertAndSend(
         this.randomExchange.getName(),
         ReactivemongodbApplication.RANDOM_KEY,
-        "RANDOM: " + blog.toString()
+        blog
     );
   }
 

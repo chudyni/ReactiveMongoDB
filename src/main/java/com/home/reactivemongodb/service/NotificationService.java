@@ -1,6 +1,7 @@
 package com.home.reactivemongodb.service;
 
-import com.home.reactivemongodb.model.impl.Blog;
+
+import com.home.reactivemongodbapi.model.impl.Blog;
 
 /**
  * Created by marcin.bracisiewicz

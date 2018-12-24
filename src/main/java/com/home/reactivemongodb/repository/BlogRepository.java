@@ -1,6 +1,6 @@
 package com.home.reactivemongodb.repository;
 
-import com.home.reactivemongodb.model.impl.Blog;
+import com.home.reactivemongodbapi.model.impl.Blog;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;

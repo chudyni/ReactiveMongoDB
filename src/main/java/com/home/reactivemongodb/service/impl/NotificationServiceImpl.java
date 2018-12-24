@@ -1,8 +1,8 @@
 package com.home.reactivemongodb.service.impl;
 
 import com.home.reactivemongodb.messages.producer.NotificationProducer;
-import com.home.reactivemongodb.model.impl.Blog;
 import com.home.reactivemongodb.service.NotificationService;
+import com.home.reactivemongodbapi.model.impl.Blog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

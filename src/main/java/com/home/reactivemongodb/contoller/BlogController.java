@@ -1,7 +1,7 @@
 package com.home.reactivemongodb.contoller;
 
-import com.home.reactivemongodb.model.impl.Blog;
 import com.home.reactivemongodb.service.BlogService;
+import com.home.reactivemongodbapi.model.impl.Blog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
