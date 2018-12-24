@@ -30,7 +30,7 @@ public class BlogServiceImpl implements BlogService {
     private NotificationService notificationService;
 
     @Autowired
-    @Qualifier("deadLetteringNotificationServiceImpl")
+    @Qualifier("delayingNotificationServiceImpl")
     private NotificationService deadLetteringNotificationService;
 
     @Override

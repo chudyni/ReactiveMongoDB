@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @author marcin.bracisiewicz
  */
 @Service
-public class DeadLetteringNotificationServiceImpl implements NotificationService {
+public class DelayingNotificationServiceImpl implements NotificationService {
 
   @Autowired
   private RabbitTemplate template;
